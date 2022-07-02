@@ -1,0 +1,40 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table AccountBalances {
+  id Int [increment, not null]
+  label String [not null]
+  owner_address String [not null]
+  mint String [not null]
+  balance Decimal [not null]
+  time_created DateTime [default: `now()`, not null]
+  Mint TokenMints
+
+  indexes {
+    (owner_address, mint, time_created) [unique]
+  }
+}
+
+Table Owners {
+  owner String [unique, not null]
+  label String
+  time_created DateTime [default: `now()`, not null]
+}
+
+Table TokenMints {
+  mint_address String [unique, not null]
+  mint_name String [unique, not null]
+  time_created DateTime [default: `now()`, not null]
+  AccountBalances AccountBalances [not null]
+}
+
+Table DatabaseKeys {
+  id String [pk]
+  description String [not null]
+  stringKey String [default: '']
+  intKey Int [default: 0]
+  boolKey Boolean [default: false]
+}
+
+Ref: AccountBalances.mint > TokenMints.mint_name

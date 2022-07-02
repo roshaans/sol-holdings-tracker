@@ -1,0 +1,15 @@
+version: "3.2"
+services:
+  timescaleDB:
+    image: timescale/timescaledb:latest-pg14
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_USER: postgres
+      POSTGRES_DB: account-balance-tracker
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    expose:
+      - 5432

@@ -1,0 +1,63 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "./generated/accountTrackerPrismaClient"
+  binaryTargets = ["native"]
+
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("BALANCE_TRACKER_LOCAL_DATABASE_URL")
+}
+
+model AccountBalances {
+  id            Int     @default(autoincrement())
+  label         String
+  owner_address String
+  mint          String
+  balance       Decimal
+
+  time_created DateTime    @default(now())
+  Mint         TokenMints? @relation(fields: [mint], references: [mint_name])
+
+  @@unique([owner_address, mint, time_created])
+  @@map("account_balances")
+}
+
+model Owners {
+  owner String  @unique
+  label String?
+
+  time_created DateTime @default(now())
+
+  @@map("owners")
+}
+
+model TokenMints {
+  mint_address String @unique
+  mint_name    String @unique
+
+  time_created DateTime @default(now())
+
+
+  @@map("token_mints")
+  AccountBalances AccountBalances[]
+}
+
+model DatabaseKeys {
+  id          String   @id
+  description String
+  stringKey   String?  @default("")
+  intKey      Int?     @default(0)
+  boolKey     Boolean? @default(false)
+
+  @@map("database_keys")
+}
