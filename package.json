@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "type": "commonjs",
   "scripts": {
-    "start:tracker": "npx @prisma/cli@2.0.0-alpha.1258 generate --schema=schema/schema.prisma && npx @prisma/cli@2.0.0-alpha.1258 migrate deploy --schema=schema/schema.prisma && env-cmd ts-node src/runner/initAccountTracker.ts",
+    "start:tracker": "npx prisma generate --schema=schema/schema.prisma && npx prisma migrate deploy --schema=schema/schema.prisma && env-cmd ts-node src/runner/initAccountTracker.ts",
     "server": "ts-node src/server/index.ts",
     "create-env": "printenv > .env"
   },
