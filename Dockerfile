@@ -1,17 +1,21 @@
-FROM node:16.14.0-alpine
+FROM node:14 AS deps
 
-RUN apk update && apk add python make g++
+WORKDIR /app
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
+RUN yarn global add typescript
+RUN yarn global add ts-node
+RUN apt-get update
+RUN apt-get install -y openssl
 
+COPY package.json yarn.lock ./
 
-COPY package.json ./
-COPY yarn.lock ./
-USER node
-RUN yarn add ts-node
+COPY ./src ./src
+COPY ./schema/ ./schema/
+COPY .env .env
+
 RUN yarn install
 
-COPY --chown=node:node . .
+COPY ./tsconfig.json ./tsconfig.json
+
 CMD ["yarn", "start:tracker"]
 

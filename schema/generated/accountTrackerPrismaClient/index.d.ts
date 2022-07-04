@@ -249,7 +249,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 2.30.3
-   * Query Engine version: 2b0c12756921c891fec4f68d9444e18c7d5d4a6a
+   * Query Engine version: da41d2bb3406da22087b849f0e911199ba4fbf11
    */
   export type PrismaVersion = {
     client: string
@@ -4427,7 +4427,7 @@ export namespace Prisma {
     owner_address?: StringFieldUpdateOperationsInput | string
     balance?: DecimalFieldUpdateOperationsInput | Decimal | number | string
     time_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    Mint?: TokenMintsUpdateOneWithoutAccountBalancesInput
+    Mint?: TokenMintsUpdateOneWithoutAccountBalancesNestedInput
   }
 
   export type AccountBalancesUncheckedUpdateInput = {
@@ -4525,14 +4525,14 @@ export namespace Prisma {
     mint_address?: StringFieldUpdateOperationsInput | string
     mint_name?: StringFieldUpdateOperationsInput | string
     time_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    AccountBalances?: AccountBalancesUpdateManyWithoutMintInput
+    AccountBalances?: AccountBalancesUpdateManyWithoutMintNestedInput
   }
 
   export type TokenMintsUncheckedUpdateInput = {
     mint_address?: StringFieldUpdateOperationsInput | string
     mint_name?: StringFieldUpdateOperationsInput | string
     time_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    AccountBalances?: AccountBalancesUncheckedUpdateManyWithoutMintInput
+    AccountBalances?: AccountBalancesUncheckedUpdateManyWithoutMintNestedInput
   }
 
   export type TokenMintsCreateManyInput = {
@@ -4950,7 +4950,7 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type TokenMintsUpdateOneWithoutAccountBalancesInput = {
+  export type TokenMintsUpdateOneWithoutAccountBalancesNestedInput = {
     create?: XOR<TokenMintsCreateWithoutAccountBalancesInput, TokenMintsUncheckedCreateWithoutAccountBalancesInput>
     connectOrCreate?: TokenMintsCreateOrConnectWithoutAccountBalancesInput
     upsert?: TokenMintsUpsertWithoutAccountBalancesInput
@@ -4978,7 +4978,7 @@ export namespace Prisma {
     connect?: Enumerable<AccountBalancesWhereUniqueInput>
   }
 
-  export type AccountBalancesUpdateManyWithoutMintInput = {
+  export type AccountBalancesUpdateManyWithoutMintNestedInput = {
     create?: XOR<Enumerable<AccountBalancesCreateWithoutMintInput>, Enumerable<AccountBalancesUncheckedCreateWithoutMintInput>>
     connectOrCreate?: Enumerable<AccountBalancesCreateOrConnectWithoutMintInput>
     upsert?: Enumerable<AccountBalancesUpsertWithWhereUniqueWithoutMintInput>
@@ -4992,7 +4992,7 @@ export namespace Prisma {
     deleteMany?: Enumerable<AccountBalancesScalarWhereInput>
   }
 
-  export type AccountBalancesUncheckedUpdateManyWithoutMintInput = {
+  export type AccountBalancesUncheckedUpdateManyWithoutMintNestedInput = {
     create?: XOR<Enumerable<AccountBalancesCreateWithoutMintInput>, Enumerable<AccountBalancesUncheckedCreateWithoutMintInput>>
     connectOrCreate?: Enumerable<AccountBalancesCreateOrConnectWithoutMintInput>
     upsert?: Enumerable<AccountBalancesUpsertWithWhereUniqueWithoutMintInput>

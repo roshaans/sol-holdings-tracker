@@ -4,7 +4,6 @@ import { BN, web3 } from "@project-serum/anchor";
 import { accountTracker } from "../utils/prismaClient";
 import { promiseAllInBatches } from "./utils";
 import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
-import { sleep } from "@project-serum/common";
 const progressBar = new cliProgress.SingleBar(
   {},
   cliProgress.Presets.shades_classic
@@ -147,5 +146,14 @@ export class TransactionStreamer {
   async getTokenAccountBalance(tokenAccount: web3.PublicKey) {
     const balance = await connection.getTokenAccountBalance(tokenAccount);
     return balance;
+  }
+}
+
+function sleep(milliseconds: number) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if (new Date().getTime() - start > milliseconds) {
+      break;
+    }
   }
 }

@@ -1,7 +1,7 @@
-// import * as dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import { TransactionStreamer } from "../account-tracker/accountTracker";
 
-// dotenv.config();
+dotenv.config();
 
 const txParserProcess = new TransactionStreamer();
 

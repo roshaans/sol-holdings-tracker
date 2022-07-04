@@ -1,16 +1,12 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "./generated/accountTrackerPrismaClient"
-  binaryTargets = ["native"]
+  binaryTargets = ["native", "linux-musl"]
 
 }
 
 generator dbml {
   provider = "prisma-dbml-generator"
-}
-
-generator typegraphql {
-  provider = "typegraphql-prisma"
 }
 
 datasource db {

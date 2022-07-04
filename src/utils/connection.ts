@@ -8,3 +8,5 @@ export default new Connection(
     ? process.env.RPC_URL!
     : "https://api.devnet.solana.com"
 );
+
+console.log(process.env.RPC_URL, "RPC URLLLLL");

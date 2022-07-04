@@ -5,7 +5,7 @@ import {
   web3,
   Address,
 } from "@project-serum/anchor";
-import { NodeWallet } from "@project-serum/common";
+// import { NodeWallet } from "@project-serum/common";
 import { Account, ConfirmOptions } from "@solana/web3.js";
 
 import {
@@ -16,29 +16,29 @@ import {
 import connection from "../utils/connection";
 import retry, { Options } from "async-retry";
 
-export async function getProgramIDL(
-  account: Account,
-  conn: web3.Connection,
-  progName?: string,
-  progId?: string
-) {
-  const options: ConfirmOptions = {
-    commitment: "confirmed",
-  };
+// export async function getProgramIDL(
+//   account: Account,
+//   conn: web3.Connection,
+//   progName?: string,
+//   progId?: string
+// ) {
+//   const options: ConfirmOptions = {
+//     commitment: "confirmed",
+//   };
 
-  const provider = new AnchorProvider(
-    conn,
-    new NodeWallet(account as Account),
-    options
-  );
-  const programIDL = await Program.fetchIdl(progId ?? "", provider);
-  if (!programIDL) throw Error("Could not fetch IDL for program");
-  return new Program(
-    programIDL,
-    progId as string,
-    new AnchorProvider(conn, new NodeWallet(account as Account), options)
-  );
-}
+//   const provider = new AnchorProvider(
+//     conn,
+//     new NodeWallet(account as Account),
+//     options
+//   );
+//   const programIDL = await Program.fetchIdl(progId ?? "", provider);
+//   if (!programIDL) throw Error("Could not fetch IDL for program");
+//   return new Program(
+//     programIDL,
+//     progId as string,
+//     new AnchorProvider(conn, new NodeWallet(account as Account), options)
+//   );
+// }
 
 export async function getLatestProgramTx(
   programID: string
