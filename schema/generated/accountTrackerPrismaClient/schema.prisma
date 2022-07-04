@@ -1,7 +1,7 @@
 generator client {
   provider      = "prisma-client-js"
   output        = "./generated/accountTrackerPrismaClient"
-  binaryTargets = ["native", "linux-musl"]
+  binaryTargets = ["native", "debian-openssl-1.1.x", "linux-musl"]
 
 }
 
@@ -19,7 +19,7 @@ model AccountBalances {
   label         String
   owner_address String
   mint          String
-  balance       Decimal
+  balance       Decimal @db.Decimal @default(0)
 
   time_created DateTime    @default(now())
   Mint         TokenMints? @relation(fields: [mint], references: [mint_name])

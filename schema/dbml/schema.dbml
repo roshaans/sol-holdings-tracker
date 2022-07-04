@@ -7,7 +7,7 @@ Table AccountBalances {
   label String [not null]
   owner_address String [not null]
   mint String [not null]
-  balance Decimal [not null]
+  balance Decimal [not null, default: 0]
   time_created DateTime [default: `now()`, not null]
   Mint TokenMints
 

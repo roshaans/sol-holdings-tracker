@@ -4407,7 +4407,7 @@ export namespace Prisma {
     id?: number
     label: string
     owner_address: string
-    balance: Decimal | number | string
+    balance?: Decimal | number | string
     time_created?: Date | string
     Mint?: TokenMintsCreateNestedOneWithoutAccountBalancesInput
   }
@@ -4417,7 +4417,7 @@ export namespace Prisma {
     label: string
     owner_address: string
     mint: string
-    balance: Decimal | number | string
+    balance?: Decimal | number | string
     time_created?: Date | string
   }
 
@@ -4444,7 +4444,7 @@ export namespace Prisma {
     label: string
     owner_address: string
     mint: string
-    balance: Decimal | number | string
+    balance?: Decimal | number | string
     time_created?: Date | string
   }
 
@@ -5259,7 +5259,7 @@ export namespace Prisma {
     id?: number
     label: string
     owner_address: string
-    balance: Decimal | number | string
+    balance?: Decimal | number | string
     time_created?: Date | string
   }
 
@@ -5267,7 +5267,7 @@ export namespace Prisma {
     id?: number
     label: string
     owner_address: string
-    balance: Decimal | number | string
+    balance?: Decimal | number | string
     time_created?: Date | string
   }
 
@@ -5313,7 +5313,7 @@ export namespace Prisma {
     id?: number
     label: string
     owner_address: string
-    balance: Decimal | number | string
+    balance?: Decimal | number | string
     time_created?: Date | string
   }
 
