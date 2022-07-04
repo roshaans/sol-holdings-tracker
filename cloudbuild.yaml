@@ -1,7 +1,14 @@
 steps:
   - name: "gcr.io/cloud-builders/docker"
     args: ["build", "-t", "${_IMAGE}", "."]
-
+    env:
+      - "MY_SECRET_KEY=${_MY_SECRET_KEY}"
+  - name: node:14
+    entrypoint: npm
+    args: ["run", "create-env"]
+    env:
+      - "BALANCE_TRACKER_LOCAL_DATABASE_URL=${_BALANCE_TRACKER_LOCAL_DATABASE_URL}"
+      - "RPC_URL=${_RPC_URL}"
 images: ["${_IMAGE}"]
 substitutions:
   _IMAGE: "gcr.io/${PROJECT_ID}/${REPO_NAME}:${TAG_NAME:-${SHORT_SHA}}"

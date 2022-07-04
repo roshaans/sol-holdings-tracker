@@ -6,7 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "start:tracker": "env-cmd ts-node src/runner/initAccountTracker.ts",
-    "server": "ts-node src/server/index.ts"
+    "server": "ts-node src/server/index.ts",
+    "create-env": "printenv > .env"
   },
   "prisma": {
     "schema": "schema/schema.prisma"
