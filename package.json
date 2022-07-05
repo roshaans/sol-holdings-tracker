@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "type": "commonjs",
   "scripts": {
-    "start:tracker": "npx @prisma/cli@2.0.0-alpha.1258 generate --schema=schema/schema.prisma && npx @prisma/cli@2.0.0-alpha.1258 migrate deploy --schema=schema/schema.prisma && env-cmd ts-node src/runner/initAccountTracker.ts",
+    "start:tracker": "npx prisma generate --schema=schema/schema.prisma && npx prisma migrate deploy --schema=schema/schema.prisma && env-cmd ts-node src/runner/initAccountTracker.ts",
     "server": "ts-node src/server/index.ts",
     "create-env": "printenv > .env"
   },
@@ -13,7 +13,6 @@
     "schema": "schema/schema.prisma"
   },
   "dependencies": {
-    "@prisma/client": "^2.22.1",
     "@project-serum/anchor": "0.25.0-beta.1",
     "@solana/spl-token": "0.2.0",
     "@solana/web3.js": "1.47.3",
@@ -32,7 +31,8 @@
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.0",
-    "prisma": "4.0.0",
+    "@prisma/client": "3.0.2",
+    "prisma": "3.0.2",
     "prisma-dbml-generator": "0.8.3"
   }
 }
