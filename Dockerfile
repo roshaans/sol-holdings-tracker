@@ -16,6 +16,6 @@ COPY .env .env
 RUN yarn install
 
 COPY ./tsconfig.json ./tsconfig.json
-EXPOSE 8080
+EXPOSE 80
 CMD ["yarn", "start:tracker"]
 
