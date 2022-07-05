@@ -11,12 +11,12 @@ const Prisma = {}
 exports.Prisma = Prisma
 
 /**
- * Prisma Client JS version: 2.30.3
- * Query Engine version: da41d2bb3406da22087b849f0e911199ba4fbf11
+ * Prisma Client JS version: 3.0.2
+ * Query Engine version: 2452cc6313d52b8b9a96999ac0e974d0aedf88db
  */
 Prisma.prismaVersion = {
-  client: "2.30.3",
-  engine: "da41d2bb3406da22087b849f0e911199ba4fbf11"
+  client: "3.0.2",
+  engine: "2452cc6313d52b8b9a96999ac0e974d0aedf88db"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -44,7 +44,6 @@ Prisma.Decimal = Decimal
 /**
  * Re-export of sql-template-tag
  */
-
 Prisma.sql = () => {
   throw new Error(`sqltag is unable to be run in the browser.
 In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
@@ -62,6 +61,13 @@ Prisma.raw = () => {
 In case this error is unexpected for you, please report it in https://github.com/prisma/prisma/issues`,
 )}
 Prisma.validator = () => (val) => val
+
+/**
+ * Shorthand utilities for JSON filtering
+ */
+Prisma.DbNull = 'DbNull'
+Prisma.JsonNull = 'JsonNull'
+Prisma.AnyNull = 'AnyNull'
 
 /**
  * Enums

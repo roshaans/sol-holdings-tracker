@@ -5,6 +5,8 @@ steps:
     env:
       - "BALANCE_TRACKER_LOCAL_DATABASE_URL=${_BALANCE_TRACKER_LOCAL_DATABASE_URL}"
       - "RPC_URL=${_RPC_URL}"
+      - "cluster=${_CLUSTER}"
+
   - name: "gcr.io/cloud-builders/docker"
     args: ["build", "-t", "${_IMAGE}", "."]
     env:

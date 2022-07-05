@@ -138,32 +138,50 @@ export class PrismaClient<
   $use(cb: Prisma.Middleware): void
 
   /**
-   * Executes a raw query and returns the number of affected rows
+   * Executes a prepared raw query and returns the number of affected rows.
    * @example
    * ```
-   * // With parameters use prisma.$executeRaw``, values will be escaped automatically
-   * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE id = ${1};`
-   * // Or
-   * const result = await prisma.$executeRaw('UPDATE User SET cool = $1 WHERE id = $2 ;', true, 1)
-  * ```
-  * 
-  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-  */
-  $executeRaw < T = any > (query: string | TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<number>;
+   * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<number>;
 
   /**
-   * Performs a raw query and returns the SELECT data
+   * Executes a raw query and returns the number of affected rows.
+   * Susceptible to SQL injections, see documentation.
    * @example
    * ```
-   * // With parameters use prisma.$queryRaw``, values will be escaped automatically
-   * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'ema.il'};`
-   * // Or
-   * const result = await prisma.$queryRaw('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'ema.il')
-  * ```
-  * 
-  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-  */
-  $queryRaw < T = any > (query: string | TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<T>;
+   * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<number>;
+
+  /**
+   * Performs a prepared raw query and returns the `SELECT` data.
+   * @example
+   * ```
+   * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): PrismaPromise<T>;
+
+  /**
+   * Performs a raw query and returns the `SELECT` data.
+   * Susceptible to SQL injections, see documentation.
+   * @example
+   * ```
+   * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
+   * ```
+   * 
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): PrismaPromise<T>;
 
   /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
@@ -178,7 +196,8 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends PrismaPromise<any>[]>(arg: [...P]): Promise<UnwrapTuple<P>>
+  $transaction<P extends PrismaPromise<any>[]>(arg: [...P]): Promise<UnwrapTuple<P>>;
+
 
       /**
    * `prisma.accountBalances`: Exposes CRUD operations for the **AccountBalances** model.
@@ -248,8 +267,8 @@ export namespace Prisma {
   export import Decimal = runtime.Decimal
 
   /**
-   * Prisma Client JS version: 2.30.3
-   * Query Engine version: da41d2bb3406da22087b849f0e911199ba4fbf11
+   * Prisma Client JS version: 3.0.2
+   * Query Engine version: 2452cc6313d52b8b9a96999ac0e974d0aedf88db
    */
   export type PrismaVersion = {
     client: string
@@ -278,7 +297,7 @@ export namespace Prisma {
    * From https://github.com/sindresorhus/type-fest/
    * Matches any valid JSON value.
    */
-  export type JsonValue = string | number | boolean | null | JsonObject | JsonArray
+  export type JsonValue = string | number | boolean | JsonObject | JsonArray | null
 
   /**
    * Same as JsonObject, but allows undefined
@@ -287,8 +306,30 @@ export namespace Prisma {
  
   export interface InputJsonArray extends Array<JsonValue> {}
  
-  export type InputJsonValue = undefined |  string | number | boolean | null | InputJsonObject | InputJsonArray
-   type SelectAndInclude = {
+  export type InputJsonValue = string | number | boolean | InputJsonObject | InputJsonArray
+
+  /**
+   * Helper for filtering JSON entries that have `null` on the database (empty on the db)
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const DbNull: 'DbNull'
+
+  /**
+   * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const JsonNull: 'JsonNull'
+
+  /**
+   * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
+   * 
+   * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+   */
+  export const AnyNull: 'AnyNull'
+
+  type SelectAndInclude = {
     select: any
     include: any
   }
@@ -2660,7 +2701,7 @@ export namespace Prisma {
           P extends 'AccountBalances'
         ? Array < AccountBalancesGetPayload<S['include'][P]>>  :
         P extends '_count'
-        ? TokenMintsCountOutputTypeGetPayload<S['include'][P]> : never
+        ? TokenMintsCountOutputTypeGetPayload<S['include'][P]> | null : never
   } 
     : 'select' extends U
     ? {
@@ -2669,7 +2710,7 @@ export namespace Prisma {
           P extends 'AccountBalances'
         ? Array < AccountBalancesGetPayload<S['select'][P]>>  :
         P extends '_count'
-        ? TokenMintsCountOutputTypeGetPayload<S['select'][P]> : never
+        ? TokenMintsCountOutputTypeGetPayload<S['select'][P]> | null : never
   } 
     : TokenMints
   : TokenMints
@@ -4427,7 +4468,7 @@ export namespace Prisma {
     owner_address?: StringFieldUpdateOperationsInput | string
     balance?: DecimalFieldUpdateOperationsInput | Decimal | number | string
     time_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    Mint?: TokenMintsUpdateOneWithoutAccountBalancesNestedInput
+    Mint?: TokenMintsUpdateOneWithoutAccountBalancesInput
   }
 
   export type AccountBalancesUncheckedUpdateInput = {
@@ -4525,14 +4566,14 @@ export namespace Prisma {
     mint_address?: StringFieldUpdateOperationsInput | string
     mint_name?: StringFieldUpdateOperationsInput | string
     time_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    AccountBalances?: AccountBalancesUpdateManyWithoutMintNestedInput
+    AccountBalances?: AccountBalancesUpdateManyWithoutMintInput
   }
 
   export type TokenMintsUncheckedUpdateInput = {
     mint_address?: StringFieldUpdateOperationsInput | string
     mint_name?: StringFieldUpdateOperationsInput | string
     time_created?: DateTimeFieldUpdateOperationsInput | Date | string
-    AccountBalances?: AccountBalancesUncheckedUpdateManyWithoutMintNestedInput
+    AccountBalances?: AccountBalancesUncheckedUpdateManyWithoutMintInput
   }
 
   export type TokenMintsCreateManyInput = {
@@ -4950,13 +4991,13 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type TokenMintsUpdateOneWithoutAccountBalancesNestedInput = {
+  export type TokenMintsUpdateOneWithoutAccountBalancesInput = {
     create?: XOR<TokenMintsCreateWithoutAccountBalancesInput, TokenMintsUncheckedCreateWithoutAccountBalancesInput>
     connectOrCreate?: TokenMintsCreateOrConnectWithoutAccountBalancesInput
     upsert?: TokenMintsUpsertWithoutAccountBalancesInput
+    connect?: TokenMintsWhereUniqueInput
     disconnect?: boolean
     delete?: boolean
-    connect?: TokenMintsWhereUniqueInput
     update?: XOR<TokenMintsUpdateWithoutAccountBalancesInput, TokenMintsUncheckedUpdateWithoutAccountBalancesInput>
   }
 
@@ -4978,29 +5019,29 @@ export namespace Prisma {
     connect?: Enumerable<AccountBalancesWhereUniqueInput>
   }
 
-  export type AccountBalancesUpdateManyWithoutMintNestedInput = {
+  export type AccountBalancesUpdateManyWithoutMintInput = {
     create?: XOR<Enumerable<AccountBalancesCreateWithoutMintInput>, Enumerable<AccountBalancesUncheckedCreateWithoutMintInput>>
     connectOrCreate?: Enumerable<AccountBalancesCreateOrConnectWithoutMintInput>
     upsert?: Enumerable<AccountBalancesUpsertWithWhereUniqueWithoutMintInput>
     createMany?: AccountBalancesCreateManyMintInputEnvelope
+    connect?: Enumerable<AccountBalancesWhereUniqueInput>
     set?: Enumerable<AccountBalancesWhereUniqueInput>
     disconnect?: Enumerable<AccountBalancesWhereUniqueInput>
     delete?: Enumerable<AccountBalancesWhereUniqueInput>
-    connect?: Enumerable<AccountBalancesWhereUniqueInput>
     update?: Enumerable<AccountBalancesUpdateWithWhereUniqueWithoutMintInput>
     updateMany?: Enumerable<AccountBalancesUpdateManyWithWhereWithoutMintInput>
     deleteMany?: Enumerable<AccountBalancesScalarWhereInput>
   }
 
-  export type AccountBalancesUncheckedUpdateManyWithoutMintNestedInput = {
+  export type AccountBalancesUncheckedUpdateManyWithoutMintInput = {
     create?: XOR<Enumerable<AccountBalancesCreateWithoutMintInput>, Enumerable<AccountBalancesUncheckedCreateWithoutMintInput>>
     connectOrCreate?: Enumerable<AccountBalancesCreateOrConnectWithoutMintInput>
     upsert?: Enumerable<AccountBalancesUpsertWithWhereUniqueWithoutMintInput>
     createMany?: AccountBalancesCreateManyMintInputEnvelope
+    connect?: Enumerable<AccountBalancesWhereUniqueInput>
     set?: Enumerable<AccountBalancesWhereUniqueInput>
     disconnect?: Enumerable<AccountBalancesWhereUniqueInput>
     delete?: Enumerable<AccountBalancesWhereUniqueInput>
-    connect?: Enumerable<AccountBalancesWhereUniqueInput>
     update?: Enumerable<AccountBalancesUpdateWithWhereUniqueWithoutMintInput>
     updateMany?: Enumerable<AccountBalancesUpdateManyWithWhereWithoutMintInput>
     deleteMany?: Enumerable<AccountBalancesScalarWhereInput>
